@@ -3,6 +3,9 @@ package com.syh.guardedsuspension_4;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Callable;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 负责与告警服务器进行对接
@@ -48,6 +51,18 @@ public class AlarmAgent {
         };
 
         blocker.callWithGuard(guardedActionCallable);
+    }
+
+    public void sendAlarmPool(final AlarmInfo alarm) throws Exception {
+        GuardedActionCallable<Void> guardedActionCallable = new GuardedActionCallable<Void>(agentConnected) {
+            @Override
+            public Void call() throws Exception {
+                doSendAlarm(alarm);
+                return null;
+            }
+        };
+
+        blocker.callWithGuardPool(guardedActionCallable);
     }
 
     // 通过网络连接将警告信息发送给服务器

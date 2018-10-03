@@ -20,6 +20,8 @@ public interface Blocker {
      */
     <V> V callWithGuard(GuardedActionCallable<V> guardedAction) throws Exception;
 
+    <V> V callWithGuardPool(GuardedActionCallable<V> guardedAction) throws Exception;
+
     /**
      * 执行 stateOperations 所指定的操作后，决定是否唤醒本 Blocker
      * 所暂挂的所有线程中的一个线程
@@ -39,5 +41,4 @@ public interface Blocker {
      * @throws Exception
      */
     void broadcastAfter(Callable<Boolean> stateOperation) throws Exception;
-
 }
