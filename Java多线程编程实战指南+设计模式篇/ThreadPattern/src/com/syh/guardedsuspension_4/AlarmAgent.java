@@ -29,7 +29,7 @@ public class AlarmAgent {
     };
 
     // 模式角色：GuardedSuspension.Blocker
-    private final Blocker blocker = new ConditionVarBlocker();
+    private final Blocker blocker = new PausableThreadPoolBlocker();
 
     private final Timer heartbeatTimer = new Timer(true);
 
@@ -51,18 +51,6 @@ public class AlarmAgent {
         };
 
         blocker.callWithGuard(guardedActionCallable);
-    }
-
-    public void sendAlarmPool(final AlarmInfo alarm) throws Exception {
-        GuardedActionCallable<Void> guardedActionCallable = new GuardedActionCallable<Void>(agentConnected) {
-            @Override
-            public Void call() throws Exception {
-                doSendAlarm(alarm);
-                return null;
-            }
-        };
-
-        blocker.callWithGuardPool(guardedActionCallable);
     }
 
     // 通过网络连接将警告信息发送给服务器
@@ -87,6 +75,11 @@ public class AlarmAgent {
         heartbeatTimer.schedule(new HeartbeatTask(), 60000, 2000);
     }
 
+    /**
+     * TODO 有不明白的地方
+     * 1. 这里为什么只唤醒1个线程？
+     * 2. 这里为什么要新建一个线程设置 connectedToServer 的值？
+     */
     protected void onConnected(){
         try {
             blocker.signalAfter(new Callable<Boolean>() {

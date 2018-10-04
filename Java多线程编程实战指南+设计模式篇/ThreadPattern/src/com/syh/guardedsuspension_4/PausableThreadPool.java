@@ -43,6 +43,16 @@ public class PausableThreadPool extends ThreadPoolExecutor {
         }
     }
 
+    public void resumeAll() {
+        pauseLock.lock();
+        try {
+            isPaused = false;
+            unpaused.signalAll();
+        } finally {
+            pauseLock.unlock();
+        }
+    }
+
     public void resume() {
         pauseLock.lock();
         try {
