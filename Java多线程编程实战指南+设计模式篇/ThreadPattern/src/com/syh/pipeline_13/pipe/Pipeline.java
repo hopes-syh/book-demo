@@ -1,4 +1,4 @@
-package com.syh.pipeline_13.pipeline;
+package com.syh.pipeline_13.pipe;
 
 import com.syh.pipeline_13.pipe.Pipe;
 

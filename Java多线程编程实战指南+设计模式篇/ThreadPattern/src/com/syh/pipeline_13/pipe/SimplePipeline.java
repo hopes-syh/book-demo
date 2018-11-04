@@ -1,10 +1,7 @@
-package com.syh.pipeline_13.pipeline;
+package com.syh.pipeline_13.pipe;
 
-import com.syh.pipeline_13.PipeContext;
 import com.syh.pipeline_13.decorator.ThreadPoolPipeDecorator;
 import com.syh.pipeline_13.decorator.WorkerThreadPipeDecorator;
-import com.syh.pipeline_13.pipe.AbstractPipe;
-import com.syh.pipeline_13.pipe.Pipe;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -96,7 +93,8 @@ public class SimplePipeline<T, OUT> extends AbstractPipe<T, OUT> implements Pipe
 
     public PipeContext newDefaultPipeContext(){
         return new PipeContext(){
-            public void handlerError(final Exception e){
+            @Override
+            public void handleError(final Exception e) {
                 helperExecutor.submit(new Runnable() {
                     @Override
                     public void run() {
