@@ -23,8 +23,10 @@ public class AlarmSendingThread extends AbstractTerminatableThread{
     private final BlockingQueue<AlarmInfo> alarmQueue;
     private final ConcurrentMap<String, AtomicInteger> submittedAlarmRegistry;
 
-    public AlarmSendingThread() {
+    public AlarmSendingThread(BlockingQueue<AlarmInfo> alarmQueue, ConcurrentMap<String, AtomicInteger> submittedAlarmRegistry) {
         super(new TerminationToken());
+        this.alarmQueue = alarmQueue;
+        this.submittedAlarmRegistry = submittedAlarmRegistry;
     }
 
     @Override

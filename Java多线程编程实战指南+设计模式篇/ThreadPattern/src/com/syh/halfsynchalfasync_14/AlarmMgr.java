@@ -13,7 +13,7 @@ public class AlarmMgr {
     private final AlarmSendingThread alarmSendingThread;
 
     private AlarmMgr(){
-        alarmSendingThread = new AlarmSendingThread();
+        alarmSendingThread = new AlarmSendingThread(null, null);
     }
 
     public static AlarmMgr getInstance() {
